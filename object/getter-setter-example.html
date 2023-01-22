@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>vue3 reactivity imitation</title>
+    <meta charset="UTF-8" />
+    <style></style>
+  </head>
+  <body>
+    <input
+      type="number"
+      id="input1"
+      name="input1"
+      value="0"
+      oninput="onInputFirst(this.value)"
+    />
+    <label for="input1">input1</label>
+    <br />
+    <input
+      type="number"
+      id="input2"
+      name="input2"
+      value="0"
+      oninput="onInputSecond(this.value)"
+    />
+    <label for="input2">input2</label>
+    <br />
+    <span>result: <span id="spanId"></span></span>
+    <br />
+
+    <script>
+      function onInputFirst(str) {
+        //Number('') 또는 Number('   ') -> 0
+        data.first = Number(str);
+      }
+
+      function onInputSecond(str) {
+        data.second = Number(str);
+      }
+
+      const data = {
+        _first: 0,
+        _second: 0,
+        _sum: 0,
+
+        get first() {
+          return this._first;
+        },
+
+        set first(value) {
+          if (this._first == value) {
+            return;
+          }
+
+          this._first = value;
+          this.updateSum();
+        },
+
+        get second() {
+          return this._second;
+        },
+
+        set second(value) {
+          if (this._second == value) {
+            return;
+          }
+
+          this._second = value;
+          this.updateSum();
+        },
+
+        get sum() {
+          return this._sum;
+        },
+
+        set sum(value) {
+          this._sum = value;
+          document.querySelector("#spanId").textContent = this.sum;
+        },
+
+        updateSum() {
+          this.sum = this.first + this.second;
+        },
+      };
+    </script>
+  </body>
+</html>
